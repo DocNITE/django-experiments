@@ -60,7 +60,7 @@ in pkgs.mkShell {
 
     # Set Django settings module if not set
     if [ -z "$DJANGO_SETTINGS_MODULE" ]; then
-      export DJANGO_SETTINGS_MODULE=project.settings
+      export DJANGO_SETTINGS_MODULE=stts_site.settings
     fi
 
     # PostgreSQL environment variables
