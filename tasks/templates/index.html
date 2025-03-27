@@ -8,8 +8,8 @@
     
     <form id="task-form">
         {% csrf_token %}
-        <input type="text" id="task-text" placeholder="Сюда надо вписать задание" required>
-        <button  onclick="createTask()">Добавить</button>
+        <!--<input type="text" id="task-text" placeholder="Сюда надо вписать задание" required>
+        <button  onclick="createTask()">Добавить</button>-->
     </form>
 
     <ul id="task-list">
@@ -28,6 +28,7 @@
 
         // TASK MANAGEMENT - Functional... Functions? We should work with them.
         // BROCKEN
+        /*
         async function createTask() {
             const text = document.getElementById('task-text').value;
 
@@ -60,6 +61,7 @@
             
             document.getElementById('task-text').value = '';
         }
+        */
 
         async function toggleTask(taskId) {
             const response = await fetch(`/tasks/${taskId}/toggle/`, {
