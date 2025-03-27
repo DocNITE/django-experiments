@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TODO Board</title>
+</head>
+<body>
+    <h1>TODO Board</h1>
+    
+    <form id="task-form">
+        {% csrf_token %}
+        <!--<input type="text" id="task-text" placeholder="Сюда надо вписать задание" required>
+        <button  onclick="createTask()">Добавить</button>-->
+    </form>
+
+    <ul id="task-list">
+        {% for task in tasks %}
+            <li data-task-id="{{ task.id }}">
+                <input type="checkbox" onchange="toggleTask({{ task.id }})" id="{{ task.id }}-checkbox"
+                {% if task.done %}checked{% endif %}>
+                {{ task.text }}
+                <button onclick="deleteTask({{ task.id }})">Удалить</button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <script>
+        const CSRFToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        // TASK MANAGEMENT - Functional... Functions? We should work with them.
+        // BROCKEN
+        /*
+        async function createTask() {
+            const text = document.getElementById('task-text').value;
+
+            console.log(`Try to add '${text}'`);
+            
+            const response = fetch('/tasks/create/', {
+                method: 'POST',
+                headers: {
+                    // AHTUNG: Not sure with it, but chrome and deepseek think it is necessary
+                    'X-CSRFToken': CSRFToken,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: text })
+            })
+            .then(data => console.log(data))
+            .catch(err => console.error('Error: ' + err));
+
+            const task = await response.json();
+            const taskList = document.getElementById('task-list');
+            
+            // Fucking shit code. But for now i don't want use JSX or any frameworks for django pet project
+            // Wait... Is it a pet project? Damn it, im a dirty developer then 😀
+            taskList.innerHTML += `
+                <li data-task-id="${task.id}">
+                    ${task.text}
+                    <button onclick="toggleTask(${task.id})">Toggle</button>
+                    <button onclick="deleteTask(${task.id})">Удалить</button>
+                </li>
+            `;
+            
+            document.getElementById('task-text').value = '';
+        }
+        */
+
+        async function toggleTask(taskId) {
+            const response = await fetch(`/tasks/${taskId}/toggle/`, {
+                method: 'POST',
+                // AHTUNG: Not sure with it, but chrome and deepseek think it is necessary
+                headers: { 'X-CSRFToken': CSRFToken }, 
+            });
+            
+            const data = await response.json();
+            const taskElement = document.getElementById(`${taskId}-checkbox`);
+            
+            if (data.done) {
+                // TODO: CSS
+                taskElement.checked = true;
+            } else {
+                // TODO: CSS
+                taskElement.checked = false;
+            }
+        }
+
+        async function deleteTask(taskId) {
+            const response = await fetch(`/tasks/${taskId}/delete/`, {
+                method: 'POST',
+                // AHTUNG: Not sure with it, but chrome and deepseek think it is necessary
+                headers: { 'X-CSRFToken': CSRFToken },
+            });
+            
+            const data = await response.json();
+
+            if (data.done) { // Sorry, im not sure can we use single line checking or not
+                document.querySelector(`[data-task-id="${taskId}"]`).remove();
+            }
+        }
+        // TASK MANAGEMENT END
+
+        console.log('Page is initialized!');
+    </script>
+</body>
+</html>

@@ -23,4 +23,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # Test app from the book
     path('bboard/', include('bboard.urls')),
+    path('tasks/', include('tasks.urls'))
 ]
