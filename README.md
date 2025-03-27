@@ -1,6 +1,7 @@
-# samuel-tts
+# What is Django?
 
-Samuel is name like "django" - a old wild western fiction film 1960's.
+Django - is a old wild western fiction film from 1960's.
+This repository contains all my experimental work with web framework.
 
 # Running Guide
 
