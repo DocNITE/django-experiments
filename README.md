@@ -5,8 +5,11 @@ This repository contains all my experimental work with web framework.
 
 <details>
 <summary><b>Media</b></summary>
-![image](https://github.com/user-attachments/assets/aa3bddf7-631c-4898-9b63-7c7b966ee978)
-![image](https://github.com/user-attachments/assets/db22b4af-4284-4efa-a9b1-d7ae1ed863b3)
+
+![image](https://github.com/user-attachments/assets/1ebdb77f-9cca-4251-a793-011acfff1e06)
+
+![image](https://github.com/user-attachments/assets/463c41d3-5a96-4b2c-b951-b010d88fb57e)
+
 </details>
 
 # Running Guide
