@@ -21,4 +21,4 @@ def toggle_task(request, task_id):
 def delete_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
     task.delete()
-    return JsonResponse({'done': True})
+    return JsonResponse({'status': 'ok', 'done': True})

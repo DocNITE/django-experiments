@@ -27,8 +27,11 @@
         const CSRFToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
         // TASK MANAGEMENT - Functional... Functions? We should work with them.
+        // BROCKEN
         async function createTask() {
             const text = document.getElementById('task-text').value;
+
+            console.log(`Try to add '${text}'`);
             
             const response = fetch('/tasks/create/', {
                 method: 'POST',
@@ -78,7 +81,7 @@
         }
 
         async function deleteTask(taskId) {
-            await fetch(`/tasks/${taskId}/delete/`, {
+            const response = await fetch(`/tasks/${taskId}/delete/`, {
                 method: 'POST',
                 // AHTUNG: Not sure with it, but chrome and deepseek think it is necessary
                 headers: { 'X-CSRFToken': CSRFToken },
