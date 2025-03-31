@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # Main apps
     'bboard.apps.BboardConfig',
     'tasks.apps.TodoBoardConfig'
+    'suggest.apps.SuggestConfig'
 ]
 
 MIDDLEWARE = [
