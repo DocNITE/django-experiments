@@ -1,1 +1,4 @@
 django
+celery
+python-dotenv
+requests
