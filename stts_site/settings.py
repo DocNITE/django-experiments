@@ -29,10 +29,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-cu+#=m&ni&*y3*26s2%^0$b&p89@_k*m818_l7vk_l4xj#p$s3'
+SECRET_KEY = os.getenv("SECRET_KEY", 'django-insecure-cu+#=m&ni&*y3*26s2%^0$b&p89@_k*m818_l7vk_l4xj#p$s3')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", 'False')
 
 ALLOWED_HOSTS = []
 
@@ -60,7 +60,6 @@ CELERY_RESULT_BACKEND = os.getenv("REDIS_URL")
 
 # Telegram
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 
 # DaData optios
 DADATA_API_KEY = os.getenv("DADATA_API_KEY")
