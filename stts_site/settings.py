@@ -17,6 +17,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 import os
 from dotenv import load_dotenv
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
 
 # Load .env
 load_dotenv()
@@ -28,11 +29,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = os.getenv("DEBUG", 'True')
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv("SECRET_KEY", 'django-insecure-cu+#=m&ni&*y3*26s2%^0$b&p89@_k*m818_l7vk_l4xj#p$s3')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv("DEBUG", 'False')
+if (DEBUG == False): # generate secret key on production
+    SECRET_KEY = get_random_secret_key()
 
 ALLOWED_HOSTS = []
 
