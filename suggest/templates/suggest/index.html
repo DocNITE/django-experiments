@@ -1,0 +1,81 @@
+{% extends "suggest/base.html" %}
+
+{% block content %}
+    <h1>Поиск ФИО через DaData</h1>
+    
+    <input type="text" id="name_input" placeholder="Введите ФИО...">
+    <div id="suggestions"></div>
+
+    <hr>
+    
+    <h2>Оповещения в Telegram:</h2>
+    <form id="notify_form">
+        <input type="text" id="message" placeholder="Ваш комментарий" required>
+        <input type="text" id="chat_id" placeholder="Ваш chat-id (узнать можно у @userinfobot)" required>
+        <button type="submit">Отправить</button>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script>
+        $(function() {
+            // Find names
+            $("#name_input").on("input", function() {
+                const query = $(this).val();
+
+                if (query.length <= 0) {
+                    $("#suggestions").empty();
+                    return;
+                }
+
+                $.ajax({
+                    url: SEARCH_URL,
+                    method: "POST",
+                    data: { query: query, csrfmiddlewaretoken: CSRF_TOKEN },
+                    success: function(data) {
+                        const suggestions = data.suggestions.map(item => item.value);
+                        $("#suggestions").html(
+                            suggestions.map(s => `<div>${s}</div>`).join("")
+                        );
+                    },
+                    error: function(xhr) {
+                        alert("Что пошло не так при отправке: " + xhr.statusText);
+                    }
+                });
+            });
+
+            // Notification by Celery
+            $("#notify_form").submit(function(e) {
+                e.preventDefault();
+                const comment = $("#message").val();
+                const chatid = $("#chat_id").val();
+
+                let message = "Результат подсказок:\n\n";
+                
+                $("#suggestions").children().each(function(index) {
+                    message += `${index + 1}. ${$(this).text()}\n`;
+                });
+                
+                message += `\nКомментарий: ${comment}`;
+
+                $.ajax({
+                    url: NOTIFY_URL,
+                    method: "POST",
+                    data: { 
+                        message: message,
+                        chatid: chatid,
+                        csrfmiddlewaretoken: CSRF_TOKEN
+                    },
+                    success: function(response) {
+                        //alert("Уведомление в очереди!");
+                        //$("#message").val('');
+                    },
+                    error: function(xhr) {
+                        alert("Что пошло не так при отправке: " + xhr.statusText);
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}

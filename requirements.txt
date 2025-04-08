@@ -1,4 +1,8 @@
+# Main deps
 django
 celery
+redis
 python-dotenv
 requests
+# For TG
+python-telegram-bot

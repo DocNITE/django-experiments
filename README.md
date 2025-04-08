@@ -10,6 +10,13 @@ Okay, it's not so difficult. Just install all packages from
 ```python
 pip install -r requirements.txt
 ```
+Also, don't forget setup the shell variables. You can do it by `.env` with next content:
+```bash
+DADATA_API_KEY=your-api-key-there
+REDIS_URL=redis://localhost:6379/0 # or another URL
+
+TELEGRAM_BOT_TOKEN=you-bot-token-api
+```
 
 ## NixOS
 

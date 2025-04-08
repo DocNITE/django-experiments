@@ -14,7 +14,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
 from pathlib import Path
+
+# Load .env
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,9 +49,21 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Main apps
     'bboard.apps.BboardConfig',
-    'tasks.apps.TodoBoardConfig'
+    'tasks.apps.TodoBoardConfig',
     'suggest.apps.SuggestConfig'
 ]
+
+# Celery options
+# Idk how to work with celery without redis 
+CELERY_BROKER_URL = os.getenv("REDIS_URL")
+CELERY_RESULT_BACKEND = os.getenv("REDIS_URL")
+
+# Telegram
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+
+# DaData optios
+DADATA_API_KEY = os.getenv("DADATA_API_KEY")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,7 +80,7 @@ ROOT_URLCONF = 'stts_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

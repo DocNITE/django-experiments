@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Поиск ФИО 😜{% endblock %}</title>
+    <!--
+        Okay, i ask AI about how to work with HTTP. 
+        I can't make the native HTTP fetch API works.
+        So, i added jquery.
+     -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!--
+        Styles, animations and etc.
+     -->
+    {% block styles %}
+        {% include "suggest/styles.html" %}
+    {% endblock %}
+</head>
+<body>
+    {% block content %}{% endblock %}
+    
+    {% block scripts %}
+    <script>
+        /* There you should define some constants */
+        const SEARCH_URL = "{% url 'search_name' %}";
+        const NOTIFY_URL = "{% url 'notify' %}";
+        const CSRF_TOKEN = "{{ csrf_token }}";
+    </script>
+    {% endblock %}
+</body>
+</html>
