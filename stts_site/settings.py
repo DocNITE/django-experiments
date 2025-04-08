@@ -14,7 +14,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
 from pathlib import Path
+from django.core.management.utils import get_random_secret_key
+
+# Load .env
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -23,11 +29,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-cu+#=m&ni&*y3*26s2%^0$b&p89@_k*m818_l7vk_l4xj#p$s3'
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", 'True')
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv("SECRET_KEY", 'django-insecure-cu+#=m&ni&*y3*26s2%^0$b&p89@_k*m818_l7vk_l4xj#p$s3')
+if (DEBUG == False): # generate secret key on production
+    SECRET_KEY = get_random_secret_key()
 
 ALLOWED_HOSTS = []
 
@@ -44,8 +52,20 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Main apps
     'bboard.apps.BboardConfig',
-    'tasks.apps.TodoBoardConfig'
+    'tasks.apps.TodoBoardConfig',
+    'suggest.apps.SuggestConfig'
 ]
+
+# Celery options
+# Idk how to work with celery without redis 
+CELERY_BROKER_URL = os.getenv("REDIS_URL")
+CELERY_RESULT_BACKEND = os.getenv("REDIS_URL")
+
+# Telegram
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+
+# DaData optios
+DADATA_API_KEY = os.getenv("DADATA_API_KEY")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -62,7 +82,7 @@ ROOT_URLCONF = 'stts_site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
