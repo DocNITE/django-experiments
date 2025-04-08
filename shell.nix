@@ -40,7 +40,8 @@ in pkgs.mkShell {
     # Development tools
     pkgs.nodejs  # For frontend tooling if needed
     pkgs.postgresql  # Local PostgreSQL server
-    pkgs.redis
+    pkgs.redis # For caching and Celery
+    pkgs.tmux # For keeping the shells
     #pkgs.libpq  # PostgreSQL C library
   ];
 
