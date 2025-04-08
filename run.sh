@@ -1,3 +1,7 @@
+# Clear old processes
+killall redis-server
+killall celery
+
 # Run redis or another brocker
 redis-server
 
